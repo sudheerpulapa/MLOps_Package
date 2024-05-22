@@ -1,4 +1,13 @@
 from setuptools import setup, find_packages
+from typing import List
+
+# Function to parse requirements from a file
+def parse_requirements(filename: str) -> List[str]:
+    """Load requirements from a pip requirements file."""
+    with open(filename, 'r', encoding='utf-8') as file:
+        lines = file.read().splitlines()
+    requirements = [line.strip() for line in lines if line.strip() and not line.startswith('#')]
+    return requirements
 
 # Read the long description from the README file
 with open('README.md', 'r', encoding='utf-8') as f:
@@ -6,10 +15,14 @@ with open('README.md', 'r', encoding='utf-8') as f:
 
 # Package metadata
 __version__ = "0.0.4"
-REPO_NAME = "mongodbconnectorpkg"
-PKG_NAME = "databaseautomation"
+REPO_NAME = "MLOps_Package"
+PKG_NAME = "mongodbconnectorpkg"
 AUTHOR_USER_NAME = "sudheerpulapa"
 AUTHOR_EMAIL = "sudheerpulapa@gmail.com"
+
+# Read requirements
+install_requires = parse_requirements('requirements.txt')
+dev_requires = parse_requirements('requirements_dev.txt')
 
 # Enhanced setup configuration
 setup(
@@ -29,17 +42,9 @@ setup(
     package_dir={"": "src"},
     packages=find_packages(where="src"),
     include_package_data=True,
-    install_requires=[
-        "pymongo>=3.11.0",
-        # Add other dependencies here
-    ],
+    install_requires=install_requires,
     extras_require={
-        "dev": [
-            "pytest>=6.0.0",
-            "flake8>=3.8.0",
-            "black>=20.8b1",
-            # Add other development dependencies here
-        ],
+        "dev": dev_requires,
     },
     classifiers=[
         "Programming Language :: Python :: 3",
