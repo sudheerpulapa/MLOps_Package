@@ -43,10 +43,10 @@ if __name__ == "__main__":
         "src/exception/exception.py",
         "src/mongo_connect/__init__.py",  # Add this line
         "src/mongo_connect/mongo_crud.py",  # Add this line
-        "tests/unit/__init__.py",
-        "tests/unit/unit.py"
         "tests/integration/__init__.py",
-        "tests/integration/integrate.py",
+        "tests/integration/test_int.py",
+        "tests/unit/__init__.py",
+        "tests/unit/test_unit.py",
         "init_setup.sh",
         "requirements.txt",
         "requirements_dev.txt",
