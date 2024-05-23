@@ -1,12 +1,15 @@
 from setuptools import setup, find_packages
 from typing import List
+import os
 
 # Function to parse requirements from a file
 def parse_requirements(filename: str) -> List[str]:
     """Load requirements from a pip requirements file."""
+    if not os.path.isfile(filename):
+        raise FileNotFoundError(f"Requirements file '{filename}' not found.")
     with open(filename, 'r', encoding='utf-8') as file:
         lines = file.read().splitlines()
-    requirements = [line.strip() for line in lines if line.strip() and not line.startswith('#')]
+    requirements = [line.strip() for line in lines if line.strip() and not line.startswith('#') and not line.startswith('-e')]
     return requirements
 
 # Read the long description from the README file
@@ -21,8 +24,13 @@ AUTHOR_USER_NAME = "sudheerpulapa"
 AUTHOR_EMAIL = "sudheerpulapa@gmail.com"
 
 # Read requirements
-install_requires = parse_requirements('requirements.txt')
-dev_requires = parse_requirements('requirements_dev.txt')
+try:
+    install_requires = parse_requirements('requirements.txt')
+    dev_requires = parse_requirements('requirements_dev.txt')
+except FileNotFoundError as e:
+    install_requires = []
+    dev_requires = []
+    print(f"Warning: {e}")
 
 # Enhanced setup configuration
 setup(
@@ -61,4 +69,3 @@ setup(
     python_requires='>=3.7',
     keywords="mongodb database automation python package",
 )
-
